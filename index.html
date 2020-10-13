@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather</title>
+  </head>
+  <body>
+    <!-- Jquery CDN link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Logic code -->
+    <script>
+      var userCity = "Sao Paulo";
+
+      $.ajax({
+        url:
+          "https://api.openweathermap.org/data/2.5/weather?q=" +
+          userCity +
+          "&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
+        method: "GET",
+      }).then(function (response) {
+        console.log(response);
+      });
+    </script>
+  </body>
+</html>
