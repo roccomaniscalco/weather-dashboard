@@ -18,47 +18,56 @@
     <nav class="navbar sticky-top navbar-dark bg-dark">
       <span class="navbar-brand mb-0 h1">Weather Dashboard</span>
     </nav>
-    <div class="container" style="max-width: 100%; max-height: 100%;">
+    <div class="container" style="max-width: 100%; max-height: 100%">
       <div class="row">
         <!-- side bar -->
         <div
-          class="col-md-4" 
+          class="col-md-4"
           style="background-color: gainsboro; padding: 10px"
         >
           <!-- search box -->
-          <form class="d-flex" style="padding-bottom: 10px">
-            <input type="text" placeholder="City" class="form-control" data-tag="search-text"/>
+          <form class="d-flex" style="padding-bottom: 10px" id="search">
+            <input
+              type="text"
+              placeholder="City"
+              class="form-control"
+              id="search-input"
+            />
             <button
+              type="submit"
               class="btn btn-primary"
               style="width: 40px; height: 38px; padding: 1px"
-              data-tag="search-button"
             >
               <img src="./search.png" style="width: 80%" />
             </button>
           </form>
           <!-- menu -->
           <div class="card">
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">Mooselookmeguntic</li>
-              <li class="list-group-item">Dapibus ac facilisis in</li>
-              <li class="list-group-item">Vestibulum at eros</li>
-            </ul>
+            <ul class="list-group list-group-flush"></ul>
           </div>
         </div>
         <!-- weather content -->
-        <main class="col-md-8" style="padding: 10px;">
-            <!-- Current report -->
-            <section class="card" style="margin-top: 10px; padding: 10px;" data-tag="report"> 
-                <h1>city</h1>
-                <span>Temperature</span>
-                <span>Humidity</span>
-                <span>Wind Speed</span>
-                <span>UV Index</span>
-            </section>
-            <!-- 5 day forecast -->
-            <section class="container" style="margin-top: 10px; padding: 10px;" data-tag="forecast"> 
-                <div class="row" data-tag="forecast"></div>
-            </section>
+        <main class="col-md-8" style="padding: 10px">
+          <!-- Current report -->
+          <section
+            class="card"
+            style="margin-top: 10px; padding: 10px"
+            id="report"
+          >
+            <h1>city</h1>
+            <span>Temperature</span>
+            <span>Humidity</span>
+            <span>Wind Speed</span>
+            <span>UV Index</span>
+          </section>
+          <!-- 5 day forecast -->
+          <section
+            class="container"
+            style="margin-top: 10px; padding: 10px"
+            data-tag="forecast"
+          >
+            <div class="row" id="forecast"></div>
+          </section>
         </main>
       </div>
     </div>
@@ -68,18 +77,41 @@
 
     <!-- Logic -->
     <script>
-      var userCity = "Sao Paulo";
-      $.ajax({
-        url:
-          "https://api.openweathermap.org/data/2.5/weather?q=" +
-          userCity +
-          "&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
-        method: "GET",
-      }).then(function (response) {
-        console.log(response);
-      });
+      // Upon page loading...
+      $(document).ready(function () {
+        var userCity = "";
+        var cities = JSON.parse(localStorage.getItem("savedCities"));
 
-      ($("search"));
+        // Display cities[] in side bar menu
+        for (var i = 0; i < cities.length; i++)
+          $("ul").prepend(
+            $("<li class='list-group-item'>" + cities[i] + "</li>")
+          );
+
+        // Upon clicking search button...
+        $("#search").on("submit", function (event) {
+          event.preventDefault();
+          userCity = $("#search-input").val();
+
+          // Call API with userCity
+          $.ajax({
+            url:
+              "https://api.openweathermap.org/data/2.5/weather?q=" +
+              userCity +
+              "&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
+            method: "GET",
+
+          // Execute function with API response
+          }).then(function (response) {
+            if (!cities.includes(response.name)) {
+              cities.push(response.name);
+              $("ul").prepend($("<li class='list-group-item'>" + response.name + "</li>"));
+              localStorage.setItem("savedCities", JSON.stringify(cities));
+            }
+            $("#search-input").val("");
+          });
+        });
+      });
     </script>
   </body>
 </html>
