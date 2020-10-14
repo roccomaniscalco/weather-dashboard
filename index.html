@@ -35,7 +35,6 @@
             <button
               type="submit"
               class="btn btn-primary"
-              style="width: 40px; height: 38px; padding: 1px"
             >
               <img src="./search.png" />
             </button>
@@ -44,17 +43,23 @@
           <div class="card">
             <ul class="list-group list-group-flush" id="menu"></ul>
           </div>
-
         </div>
         <!-- weather content -->
         <main class="col-md-8">
           <!-- current report -->
-          <section class="card" id="report">
-            <h2 id="name"></h2>
-            <h1 id="temp"></h1>
-            <h6 id="humidity"></h6>
-            <h6 id="wind"></h6>
-            <h6 id="UV"></h6>
+          <section class="card container" id="report">
+            <h1 id="name"></h1>
+            <div class="row">
+              <div class="col-6">
+                <h1 id="temp"></h1>
+                <h6 id="humidity"></h6>
+                <h6 id="wind"></h6>
+                <h6 id="UV"></h6>
+              </div>
+              <div class="col-6">
+                <img src="" id="icon" />
+              </div>
+            </div>
           </section>
           <!-- 5 day forecast -->
           <section class="container" data-tag="forecast">
@@ -88,11 +93,17 @@
         // display cities[] in side bar menu
         function displayCities() {
           $("#menu").html("");
-          if(cities.length > 1)
-            $("ul").append("<li class='list-group-item float-right' id='clear-li'>Clear cities</li>")
+          if (cities.length > 1)
+            $("ul").append(
+              "<li class='list-group-item float-right' id='clear-li'>Clear cities</li>"
+            );
           for (var i = 0; i < cities.length; i++)
             $("ul").prepend(
-              $("<li class='list-group-item' id='city-li'>" + cities[i] + "</li>")
+              $(
+                "<li class='list-group-item' id='city-li'>" +
+                  cities[i] +
+                  "</li>"
+              )
             );
         }
 
@@ -110,7 +121,13 @@
           }).then(function (response) {
             // append name, date, temp, humidity, and wind to report section
             $("#name").text(response.name);
-            $("#temp").text(Math.round(response.main.temp) + "°");
+            $("#temp").text(Math.round(response.main.temp) + "° ");
+            $("#icon").attr(
+              "src",
+              "http://openweathermap.org/img/wn/" +
+                response.weather[0].icon +
+                "@4x.png"
+            );
             $("#humidity").text("humidity: " + response.main.humidity + "%");
             $("#wind").text(
               "Wind: " + Math.round(response.wind.speed) + " MPH"
@@ -157,10 +174,11 @@
         // upon clicking a menu item...
         $("#menu").on("click", "li", function () {
           displayWeather($(this).text());
-          if($(this).attr("id") == "clear-li"){
+          if ($(this).attr("id") == "clear-li") {
             localStorage.clear();
             cities = ["São Paulo"];
             displayCities();
+            displayWeather("São Paulo");
           }
         });
       });
