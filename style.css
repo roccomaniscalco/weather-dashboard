@@ -1,0 +1,54 @@
+#temp{
+    font-size: 74px;
+    margin: 0px 0px 0px 0px;
+}
+
+.card{
+    background-color: #1E1E1E;
+    color: #e6e6e6;
+}
+
+.container{
+    max-width: 100%; 
+}
+
+.form-control{
+    background-color: #e6e6e6;
+    color: #1E1E1E;
+}
+
+.form-control:focus{
+    background-color: #e6e6e6;
+    color: #1E1E1E;
+}
+
+.list-group-item{
+    background-color: #1E1E1E;
+    color: #e6e6e6;
+}
+
+body{
+    background-color: #2E3032;
+}
+
+nav{
+    background-color: #1E1E1E;
+    color: #e6e6e6;
+}
+
+form{
+    padding: 20px 0px 20px 0px;
+}
+
+img{
+    width: 80%;
+}
+
+main{
+    padding: 10px
+}
+
+section{
+    margin-top: 10px; 
+    padding: 10px;
+}
