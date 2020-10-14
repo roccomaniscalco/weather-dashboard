@@ -96,7 +96,7 @@
           $("#menu").html("");
           if (cities.length > 1)
             $("ul").append(
-              "<li class='list-group-item float-right' id='clear-li'>Clear cities</li>"
+              "<li class='list-group-item float-right'>Clear cities</li>"
             );
           for (var i = 0; i < cities.length; i++)
             $("ul").prepend(
@@ -174,8 +174,9 @@
 
         // upon clicking a menu item...
         $("#menu").on("click", "li", function () {
-          displayWeather($(this).text());
-          if ($(this).attr("id") == "clear-li") {
+          if ($(this).attr("id") == "city-li") 
+            displayWeather($(this).text());
+          else {
             localStorage.clear();
             cities = ["São Paulo"];
             displayCities();
