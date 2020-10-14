@@ -29,7 +29,7 @@
           <form class="d-flex" style="padding-bottom: 10px" id="search">
             <input
               type="text"
-              placeholder="City"
+              placeholder="Add city..."
               class="form-control"
               id="search-input"
             />
@@ -43,7 +43,7 @@
           </form>
           <!-- menu -->
           <div class="card">
-            <ul class="list-group list-group-flush"></ul>
+            <ul class="list-group list-group-flush" id="menu"></ul>
           </div>
         </div>
         <!-- weather content -->
@@ -53,13 +53,7 @@
             class="card"
             style="margin-top: 10px; padding: 10px"
             id="report"
-          >
-            <h1>city</h1>
-            <span>Temperature</span>
-            <span>Humidity</span>
-            <span>Wind Speed</span>
-            <span>UV Index</span>
-          </section>
+          ></section>
           <!-- 5 day forecast -->
           <section
             class="container"
@@ -79,38 +73,91 @@
     <script>
       // Upon page loading...
       $(document).ready(function () {
+        //localStorage.setItem("savedCities", JSON.stringify([]));
+
         var userCity = "";
         var cities = JSON.parse(localStorage.getItem("savedCities"));
+        console.log(cities);
+        displayCities();
+        displayWeather("São Paulo")
 
         // Display cities[] in side bar menu
-        for (var i = 0; i < cities.length; i++)
-          $("ul").prepend(
-            $("<li class='list-group-item'>" + cities[i] + "</li>")
-          );
+        function displayCities() {
+          $("#menu").html("");
+          for (var i = 0; i < cities.length; i++)
+            $("ul").prepend(
+              $("<li class='list-group-item'>" + cities[i] + "</li>")
+            );
+        }
+
+        // Display current weather
+        function displayWeather(city) {
+          $("#report").html("");
+          // Call API with passed-in city
+          $.ajax({
+            url:
+              "https://api.openweathermap.org/data/2.5/weather?q=" +
+              city +
+              "&units=imperial&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
+            method: "GET",
+          }).then(function (response) {
+            $("#report").append($("<h1>" + response.name + " </h1>"));
+            $("#report").append(
+              $("<h2>" + Math.round(response.main.temp) + "° </h2>")
+            );
+            $("#report").append(
+              $("<span>Humidity: " + response.main.humidity + "% </span>")
+            );
+            $("#report").append(
+              $(
+                "<span>Wind Speed: " +
+                  Math.round(response.wind.speed) +
+                  " MPH</span>"
+              )
+            );
+            // Call API with passed-in city's coordinates
+            $.ajax({
+              url:
+                "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+                response.coord.lat +
+                "&lon=" +
+                response.coord.lon +
+                "&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
+              method: "GET",
+            }).then(function (responseUV) {
+              $("#report").append(
+                $("<span>UV index: " + Math.round(responseUV.value) + "</span>")
+              );
+            });
+          });
+        }
 
         // Upon clicking search button...
         $("#search").on("submit", function (event) {
           event.preventDefault();
           userCity = $("#search-input").val();
 
-          // Call API with userCity
+          // Call API with searched city
           $.ajax({
             url:
               "https://api.openweathermap.org/data/2.5/weather?q=" +
               userCity +
               "&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
             method: "GET",
-
-          // Execute function with API response
           }).then(function (response) {
             if (!cities.includes(response.name)) {
               cities.push(response.name);
-              $("ul").prepend($("<li class='list-group-item'>" + response.name + "</li>"));
+              displayCities();
               localStorage.setItem("savedCities", JSON.stringify(cities));
             }
-            $("#search-input").val("");
           });
+          $("#search-input").val("");
         });
+
+        // Upon clicking a menu item...
+        $("#menu").on("click", "li", function(){
+            displayWeather($(this).text())
+        })
       });
     </script>
   </body>
