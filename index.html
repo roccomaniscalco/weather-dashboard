@@ -125,7 +125,7 @@
             $("#temp").text(Math.round(response.main.temp) + "° ");
             $("#icon").attr(
               "src",
-              "http://openweathermap.org/img/wn/" +
+              "https://openweathermap.org/img/wn/" +
                 response.weather[0].icon +
                 "@4x.png"
             );
@@ -136,7 +136,7 @@
             // call API with passed-in city's coordinates
             $.ajax({
               url:
-                "http://api.openweathermap.org/data/2.5/uvi?lat=" +
+                "https://api.openweathermap.org/data/2.5/uvi?lat=" +
                 response.coord.lat +
                 "&lon=" +
                 response.coord.lon +
