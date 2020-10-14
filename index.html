@@ -73,13 +73,17 @@
     <script>
       // Upon page loading...
       $(document).ready(function () {
-        //localStorage.setItem("savedCities", JSON.stringify([]));
+        //localStorage.clear();
 
-        var userCity = "";
-        var cities = JSON.parse(localStorage.getItem("savedCities"));
-        console.log(cities);
+        var userCity = "São Paulo";
+        var cities = [];
+        if (localStorage.getItem("savedCities") != null)
+          cities = JSON.parse(localStorage.getItem("savedCities"));
+        if (localStorage.getItem("savedCity") != null)
+          userCity = localStorage.getItem("savedCity");
+
         displayCities();
-        displayWeather("São Paulo")
+        displayWeather(userCity);
 
         // Display cities[] in side bar menu
         function displayCities() {
@@ -92,6 +96,7 @@
 
         // Display current weather
         function displayWeather(city) {
+          localStorage.setItem("savedCity", city);
           $("#report").html("");
           // Call API with passed-in city
           $.ajax({
@@ -150,14 +155,15 @@
               displayCities();
               localStorage.setItem("savedCities", JSON.stringify(cities));
             }
+            displayWeather(userCity);
           });
           $("#search-input").val("");
         });
 
         // Upon clicking a menu item...
-        $("#menu").on("click", "li", function(){
-            displayWeather($(this).text())
-        })
+        $("#menu").on("click", "li", function () {
+          displayWeather($(this).text());
+        });
       });
     </script>
   </body>
