@@ -63,8 +63,39 @@
             </div>
           </section>
           <!-- 5 day forecast -->
-          <section class="container" data-tag="forecast">
-            <div class="row" id="forecast"></div>
+          <section class="container">
+            <div class="row" id="forecast">
+              <div class="col-sm card bg-primary" id="forecast-7">
+                <h5 class="forecast-date"></h5>
+                <h2 class="forecast-temp"></h2>
+                <h6 class="forecast-humidity"></h6>
+                <img src="" class="forecast-icon">
+              </div>
+              <div class="col-sm card bg-primary" id="forecast-15">
+                <h5 class="forecast-date"></h5>
+                <h2 class="forecast-temp"></h2>
+                <h6 class="forecast-humidity"></h6>
+                <img src="" class="forecast-icon">
+              </div>
+              <div class="col-sm card bg-primary" id="forecast-23">
+                <h5 class="forecast-date"></h5>
+                <h2 class="forecast-temp"></h2>
+                <h6 class="forecast-humidity"></h6>
+                <img src="" class="forecast-icon">
+              </div>
+              <div class="col-sm card bg-primary" id="forecast-31">
+                <h5 class="forecast-date"></h5>
+                <h2 class="forecast-temp"></h2>
+                <h6 class="forecast-humidity"></h6>
+                <img src="" class="forecast-icon">
+              </div>
+              <div class="col-sm card bg-primary" id="forecast-39">
+                <h5 class="forecast-date"></h5>
+                <h2 class="forecast-temp"></h2>
+                <h6 class="forecast-humidity"></h6>
+                <img src="" class="forecast-icon">
+              </div>
+            </div>
           </section>
         </main>
       </div>
@@ -90,6 +121,7 @@
           userCity = localStorage.getItem("savedCity");
         displayCities();
         displayWeather(userCity);
+        displayForecast(userCity);
 
         // display cities[] in side bar menu
         function displayCities() {
@@ -149,6 +181,39 @@
           });
         }
 
+        // display forecast
+        function displayForecast(city) {
+          $.ajax({
+            url:
+              "https://api.openweathermap.org/data/2.5/forecast?q=" +
+              city +
+              "&units=imperial&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
+            method: "GET",
+          }).then(function (response) {
+            console.log(response);
+            for (var i = 7; i < response.list.length; i += 8) {
+              $("#forecast-" + i)
+                .find(".forecast-date")
+                .text(
+                  moment().format(
+                    "M/" + response.list[i].dt_txt.substring(8, 10)
+                  )
+                );
+
+              $("#forecast-" + i)
+                .find(".forecast-icon")
+                .attr("src",
+                "https://openweathermap.org/img/wn/" +
+                  response.list[i].weather[0].icon +
+                  "@2x.png");
+
+              $("#forecast-" + i)
+                .find(".forecast-temp")
+                .text(Math.round(response.list[i].main.temp) + "°");
+            }
+          });
+        }
+
         // upon clicking search button...
         $("#search").on("submit", function (event) {
           event.preventDefault();
@@ -168,19 +233,22 @@
               localStorage.setItem("savedCities", JSON.stringify(cities));
             }
             displayWeather(userCity);
+            displayForecast(userCity);
           });
           $("#search-input").val("");
         });
 
         // upon clicking a menu item...
         $("#menu").on("click", "li", function () {
-          if ($(this).attr("id") == "city-li") 
+          if ($(this).attr("id") == "city-li") {
             displayWeather($(this).text());
-          else {
+            displayForecast($(this).text());
+          } else {
             localStorage.clear();
             cities = ["São Paulo"];
             displayCities();
             displayWeather("São Paulo");
+            displayForecast("São Paulo");
           }
         });
       });

@@ -34,6 +34,22 @@
     color: #e6e6e6;
 }
 
+.bg-primary{
+    margin: 0px 10px 20px 0px;
+    padding: 10px 0px 10px 10px;
+}
+
+.forecast-temp{
+    float: left;
+    width: 100px;
+}
+
+.forecast-icon{
+    float: left;
+    position: relative;
+    width: 70px;
+}
+
 body{
     background-color: #2E3032;
 }
