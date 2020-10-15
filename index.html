@@ -65,35 +65,35 @@
           <!-- 5 day forecast -->
           <section class="container">
             <div class="row" id="forecast">
-              <div class="col-sm card bg-primary" id="forecast-7">
+              <div class="col-sm card bg-primary" id="forecast-0">
                 <h5 class="forecast-date"></h5>
                 <h2 class="forecast-temp"></h2>
                 <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon">
+                <img src="" class="forecast-icon" />
               </div>
-              <div class="col-sm card bg-primary" id="forecast-15">
+              <div class="col-sm card bg-primary" id="forecast-1">
                 <h5 class="forecast-date"></h5>
                 <h2 class="forecast-temp"></h2>
                 <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon">
+                <img src="" class="forecast-icon" />
               </div>
-              <div class="col-sm card bg-primary" id="forecast-23">
+              <div class="col-sm card bg-primary" id="forecast-2">
                 <h5 class="forecast-date"></h5>
                 <h2 class="forecast-temp"></h2>
                 <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon">
+                <img src="" class="forecast-icon" />
               </div>
-              <div class="col-sm card bg-primary" id="forecast-31">
+              <div class="col-sm card bg-primary" id="forecast-3">
                 <h5 class="forecast-date"></h5>
                 <h2 class="forecast-temp"></h2>
                 <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon">
+                <img src="" class="forecast-icon" />
               </div>
-              <div class="col-sm card bg-primary" id="forecast-39">
+              <div class="col-sm card bg-primary" id="forecast-4">
                 <h5 class="forecast-date"></h5>
                 <h2 class="forecast-temp"></h2>
                 <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon">
+                <img src="" class="forecast-icon" />
               </div>
             </div>
           </section>
@@ -183,6 +183,8 @@
 
         // display forecast
         function displayForecast(city) {
+          var currentHour = moment().hour();
+          // call API with passed-in city
           $.ajax({
             url:
               "https://api.openweathermap.org/data/2.5/forecast?q=" +
@@ -191,25 +193,26 @@
             method: "GET",
           }).then(function (response) {
             console.log(response);
-            for (var i = 7; i < response.list.length; i += 8) {
+            // append date, temperature, and icon to each card
+            for (var i = 0; i < 5; i++) {
               $("#forecast-" + i)
                 .find(".forecast-date")
                 .text(
                   moment().format(
-                    "M/" + response.list[i].dt_txt.substring(8, 10)
+                    "M/" + response.list[i*8+7].dt_txt.substring(8, 10)
                   )
                 );
-
               $("#forecast-" + i)
                 .find(".forecast-icon")
-                .attr("src",
-                "https://openweathermap.org/img/wn/" +
-                  response.list[i].weather[0].icon +
-                  "@2x.png");
-
+                .attr(
+                  "src",
+                  "https://openweathermap.org/img/wn/" +
+                    response.list[i*8+7].weather[0].icon +
+                    "@4x.png"
+                );
               $("#forecast-" + i)
                 .find(".forecast-temp")
-                .text(Math.round(response.list[i].main.temp) + "°");
+                .text(Math.round(response.list[i*8+7].main.temp) + "°");
             }
           });
         }
