@@ -1,7 +1,5 @@
 # weather-dashboard
 
-## Description
-
 As a global citizen, you want to view the latest weather reports from thousands of cities around the globe. This weather dashboard app delivers Open Weather Maps API data by city. Weather information is presented in a sleek, minimalist, and mobile first way.
 
 ![Weather Dashboard](./screenShot.png)
