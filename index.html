@@ -37,7 +37,7 @@
               class="btn btn-primary"
               style="width: 40px; height: 38px; padding: 1px"
             >
-              <img src="./search.png" />
+              <img src="./search.png" alt="magnifying glass search icon"/>
             </button>
           </form>
           <!-- menu -->
@@ -48,52 +48,55 @@
         <!-- weather content -->
         <main class="col-md-8">
           <!-- current report -->
-          <section class="card container" id="report">
-            <h1 id="name"></h1>
-            <div class="row">
-              <div class="col-6">
+          <section class="card container" id="report-card">
+              <h1 id="name"></h1>
+            <div id="report">
+              <div>
                 <h1 id="temp"></h1>
                 <h6 id="humidity"></h6>
                 <h6 id="wind"></h6>
                 <h6 id="UV"></h6>
               </div>
-              <div class="col-6">
-                <img src="" id="icon" />
-              </div>
+              <img src="" id="icon" />
             </div>
           </section>
           <!-- 5 day forecast -->
           <section class="container">
             <div class="row" id="forecast">
               <div class="col-sm card bg-primary" id="forecast-0">
-                <h5 class="forecast-date"></h5>
-                <h2 class="forecast-temp"></h2>
-                <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon" />
+                <div class="wrap">
+                  <h5 class="forecast-date"></h5>
+                  <h2 class="forecast-temp"></h2>
+                </div>
+                <img class="forecast-icon"/>
               </div>
               <div class="col-sm card bg-primary" id="forecast-1">
-                <h5 class="forecast-date"></h5>
-                <h2 class="forecast-temp"></h2>
-                <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon" />
+                <div class="wrap">
+                  <h5 class="forecast-date"></h5>
+                  <h2 class="forecast-temp"></h2>
+                </div>
+                <img class="forecast-icon"/>
               </div>
               <div class="col-sm card bg-primary" id="forecast-2">
-                <h5 class="forecast-date"></h5>
-                <h2 class="forecast-temp"></h2>
-                <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon" />
+                <div class="wrap">
+                  <h5 class="forecast-date"></h5>
+                  <h2 class="forecast-temp"></h2>
+                </div>
+                <img class="forecast-icon"/>
               </div>
               <div class="col-sm card bg-primary" id="forecast-3">
-                <h5 class="forecast-date"></h5>
-                <h2 class="forecast-temp"></h2>
-                <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon" />
+                <div class="wrap">
+                  <h5 class="forecast-date"></h5>
+                  <h2 class="forecast-temp"></h2>
+                </div>
+                <img class="forecast-icon"/>
               </div>
               <div class="col-sm card bg-primary" id="forecast-4">
-                <h5 class="forecast-date"></h5>
-                <h2 class="forecast-temp"></h2>
-                <h6 class="forecast-humidity"></h6>
-                <img src="" class="forecast-icon" />
+                <div class="wrap">
+                  <h5 class="forecast-date"></h5>
+                  <h2 class="forecast-temp"></h2>
+                </div>
+                <img class="forecast-icon"/>
               </div>
             </div>
           </section>
@@ -152,6 +155,7 @@
               "&units=imperial&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
             method: "GET",
           }).then(function (response) {
+            console.log(response);
             // append name, date, temp, humidity, and wind to report section
             $("#name").text(response.name);
             $("#temp").text(Math.round(response.main.temp) + "° ");
@@ -161,6 +165,7 @@
                 response.weather[0].icon +
                 "@4x.png"
             );
+            $("#icon").attr("alt", response.weather[0].description + " icon");
             $("#humidity").text("humidity: " + response.main.humidity + "%");
             $("#wind").text(
               "Wind: " + Math.round(response.wind.speed) + " MPH"
@@ -192,27 +197,31 @@
               "&units=imperial&appid=363cbd4e4beb8ea88e1a4d08a04b028b",
             method: "GET",
           }).then(function (response) {
-            console.log(response);
             // append date, temperature, and icon to each card
             for (var i = 0; i < 5; i++) {
-              $("#forecast-" + i)
+              var forecastCard = $("#forecast-" + i);
+              var forecastDay = response.list[i * 8 + 7]
+
+              forecastCard
                 .find(".forecast-date")
                 .text(
                   moment().format(
-                    "M/" + response.list[i*8+7].dt_txt.substring(8, 10)
+                    "M/" + forecastDay.dt_txt.substring(8, 10)
                   )
                 );
-              $("#forecast-" + i)
+
+              forecastCard
                 .find(".forecast-icon")
                 .attr(
                   "src",
                   "https://openweathermap.org/img/wn/" +
-                    response.list[i*8+7].weather[0].icon +
-                    "@4x.png"
-                );
-              $("#forecast-" + i)
+                    forecastDay.weather[0].icon +
+                    "@4x.png")
+                .attr("alt", forecastDay.weather[0].description + " icon");
+
+              forecastCard
                 .find(".forecast-temp")
-                .text(Math.round(response.list[i*8+7].main.temp) + "°");
+                .text(Math.round(forecastDay.main.temp) + "°");
             }
           });
         }

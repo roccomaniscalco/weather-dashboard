@@ -1,79 +1,97 @@
-#temp{
-    font-size: 74px;
-    margin: 0px 0px 0px 0px;
-    display: inline;
+#report-card{
+    padding: 20px 0px 20px 20px;
 }
 
-#icon{
-    max-width: 165px;
-    display: block;
-    margin: 0px 0px 0px 0px;
+#report {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
 }
 
-.card{
-    margin: 0px px 0px 0px;
-    background-color: #1E1E1E;
-    color: #e6e6e6;
+#temp {
+  font-size: 74px;
+  margin: 0px 0px 0px 0px;
 }
 
-.container{
-    max-width: 100%; 
+#icon {
+  margin: auto;
+  max-width: 170px;
+  max-height: 170px;
 }
 
-.form-control{
-    background-color: #e6e6e6;
-    color: #1E1E1E;
+#forecast {
+  margin: 0px -25px 0px -15px;
 }
 
-.form-control:focus{
-    background-color: #e6e6e6;
-    color: #1E1E1E;
+.card {
+  background-color: #1e1e1e;
+  color: #e6e6e6;
 }
 
-.list-group-item{
-    background-color: #1E1E1E;
-    color: #e6e6e6;
+.container {
+  max-width: 100%;
 }
 
-.bg-primary{
-    margin: 0px 10px 20px 0px;
-    padding: 10px 0px 10px 10px;
+.form-control {
+  background-color: #e6e6e6;
+  color: #1e1e1e;
 }
 
-.forecast-temp{
-    float: left;
-    width: 100px;
+.form-control:focus {
+  background-color: #e6e6e6;
+  color: #1e1e1e;
 }
 
-.forecast-icon{
-    float: left;
-    position: relative;
-    width: 70px;
+.list-group-item {
+  background-color: #1e1e1e;
+  color: #e6e6e6;
 }
 
-body{
-    background-color: #2E3032;
+.list-group-item:hover {
+    opacity: 50%;
 }
 
-nav{
-    background-color: #1E1E1E;
-    color: #e6e6e6;
+.bg-primary {
+  margin: 0px 10px 20px 0px;
+  padding: 10px 10px 10px 10px;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
 }
 
-form{
-    padding: 20px 0px 20px 0px;
+.wrap {
+  padding: 0px 100px 0px 0px;
 }
 
-img{
-    width: 80%;
-    height: auto;
+.forecast-icon {
+  margin: 5px 0px 0px 0px;
+  width: 70px;
+  height: 70px;
 }
 
-main{
-    padding: 10px
+body {
+  background-color: #2e3032;
 }
 
-section{
-    margin-top: 10px; 
-    padding: 10px;
+nav {
+  background-color: #1e1e1e;
+  color: #e6e6e6;
+}
+
+form {
+  padding: 20px 0px 20px 0px;
+}
+
+img {
+  width: 80%;
+  height: auto;
+}
+
+main {
+  padding: 10px;
+}
+
+section {
+  margin-top: 10px;
+  padding: 10px;
 }
