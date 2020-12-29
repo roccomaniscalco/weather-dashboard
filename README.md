@@ -1,6 +1,6 @@
 # weather-dashboard
 
-As a global citizen, you want to view the latest weather reports from thousands of cities around the globe. This weather dashboard app delivers Open Weather Maps API data by city. Weather information is presented in a sleek, minimalist, and mobile first way.
+Deciding wether to bring a raincoat is an overlooked part of day-to-day routine. The Weather Dashboard web app converts the mundane task of checking the weather into an enjoyable one. With user-experience as a primary focus, the app utilizes a minimalist responsive interface to display weather data from any viewport. Pick from over 200,000 cities to check the current weather and get up-to-date forecasts for anywhere in the world.
 
 ![Weather Dashboard](./screenShot.png)
 
@@ -11,21 +11,21 @@ View the deployed [Weather Dashboard!](https://roccomaniscalco.github.io/weather
 
 
 ### Features
-* Enter new cities
-* Clear cities
-* Weather icons
+* Dark mode
+* Mobile first
+* Add and clear cities
+* Persistent search history
 * View current:
     * date
     * temperature
     * humidity
     * wind speed
     * UV index
+    * Weather icons
 * View 5-day forecast:
     * date
     * temperature
-* Dark mode
-* Mobile first
-* Persistent searches
+    * Weather icons
 
 
 ## Installation
@@ -37,12 +37,10 @@ View the deployed [Weather Dashboard!](https://roccomaniscalco.github.io/weather
 
 ## Credits
 
-* Reference image provided by [Jonathon Watson](https://github.com/jonathanjwatson)
 * CSS styling components provided by [Bootstrap](https://getbootstrap.com/)
 * Search icon created with [Icon Scout](https://iconscout.com/)
-* Weather information provided by [Open Weather Map](https://openweathermap.org/api) API
-* [Jquery](https://jquery.com/) API
-* [Moment.js](https://momentjs.com/) API
+* Weather information provided by [Open Weather Map](https://openweathermap.org/api) 
+* Current date provided by [Moment.js](https://momentjs.com/)
 
 
 ## License
